@@ -64,10 +64,19 @@
 		// Process TIFF if it's a new file and library is ready
 		// Note: When lib_ready becomes true, this effect re-runs.
 		const file_url = value.url || value.path;
+
 		if (lib_ready && file_url && file_url !== current_processed_url) {
-			processTiff(value);
-		}
+            processTiff(value);
+        }
 	});
+
+	function isTiff(buffer: ArrayBuffer): boolean {
+        if (buffer.byteLength < 4) return false;
+        const view = new DataView(buffer);
+        const magic = view.getUint16(0, false); // Big Endian
+        // 0x4949 = "II" (Intel), 0x4D4D = "MM" (Motorola)
+        return magic === 0x4949 || magic === 0x4D4D;
+    }
 
 	function loadScript(src: string): Promise<void> {
 		return new Promise((resolve, reject) => {
@@ -125,6 +134,18 @@
 				);
 
 			const buffer = await response.arrayBuffer();
+
+			// Check header
+            if (!isTiff(buffer)) {
+                console.warn("Detected non-TIFF header (likely JPEG/PNG). Falling back to browser rendering.");
+                // Fallback
+                const blob = new Blob([buffer]); 
+                const blobUrl = URL.createObjectURL(blob);
+                pages = [blobUrl];
+                page_index = 0;
+                return;
+            }
+
 			tiffInstance = new window.Tiff({ buffer });
 
 			let totalPages = 1;
@@ -156,8 +177,7 @@
 		} catch (error) {
 			console.error("TIFF processing failed:", error);
 			gradio.dispatch("clear_status");
-			// Allow retrying if processing failed
-			current_processed_url = null;
+			pages = [];
 		} finally {
 			tiffInstance?.close();
 			processing = false;

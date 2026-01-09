@@ -10,7 +10,7 @@ app_file: space.py
 ---
 
 # `gradio_tiff`
-<img alt="Static Badge" src="https://img.shields.io/badge/version%20-%200.1.0%20-%20orange"> <a href="https://github.com/NiklasvonM/Gradio-TIFF//issues" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Issues-white?logo=github&logoColor=black"></a> <a href="https://huggingface.co/spaces/NiklasvonM/Gradio-TIFF/discussions" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/%F0%9F%A4%97%20Discuss-%23097EFF?style=flat&logoColor=black"></a>
+<a href="https://pypi.org/project/gradio_tiff/" target="_blank"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/gradio_tiff"></a> <a href="https://github.com/NiklasvonM/Gradio-TIFF//issues" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Issues-white?logo=github&logoColor=black"></a> <a href="https://huggingface.co/spaces/NiklasvonM/Gradio-TIFF/discussions" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/%F0%9F%A4%97%20Discuss-%23097EFF?style=flat&logoColor=black"></a>
 
 Custom Gradio component for multi-page TIFF images
 
@@ -61,7 +61,7 @@ str | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">A path or URL to the TIFF image.</td>
 </tr>
 
@@ -74,7 +74,7 @@ str | I18nData | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">the label for this component. Appears above the component and is also used as the header if there are a table of examples for this component. If None and used in a `gr.Interface`, the label will be the name of the parameter this component is assigned to.</td>
 </tr>
 
@@ -87,7 +87,7 @@ Timer | float | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">Continously calls `value` to recalculate it if `value` is a function (has no effect otherwise). Can provide a Timer whose tick resets `value`, or a float that provides the regular interval for the reset Timer.</td>
 </tr>
 
@@ -100,7 +100,7 @@ Component | Sequence[Component] | set[Component] | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">Components that are used as inputs to calculate `value` if `value` is a function (has no effect otherwise). `value` is recalculated any time the inputs change.</td>
 </tr>
 
@@ -113,7 +113,7 @@ bool | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">if True, will display label.</td>
 </tr>
 
@@ -126,7 +126,7 @@ bool
 ```
 
 </td>
-<td align="left"><code>value = True</code></td>
+<td align="left"><code>True</code></td>
 <td align="left">If True, shows a button to download the original TIFF file.</td>
 </tr>
 
@@ -139,7 +139,7 @@ bool
 ```
 
 </td>
-<td align="left"><code>value = True</code></td>
+<td align="left"><code>True</code></td>
 <td align="left">if True, will place the component in a container - providing some extra padding around the border.</td>
 </tr>
 
@@ -152,7 +152,7 @@ int | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">relative size compared to adjacent Components. For example if Components A and B are in a Row, and A has scale=2, and B has scale=1, A will be twice as wide as B. Should be an integer. scale applies in Rows, and to top-level Components in Blocks where fill_height=True.</td>
 </tr>
 
@@ -165,7 +165,7 @@ bool | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">if True, will allow users to upload and edit an image; if False, can only be used to display images. If not provided, this is inferred based on whether the component is used as an input or output.</td>
 </tr>
 
@@ -174,11 +174,11 @@ bool | None
 <td align="left" style="width: 25%;">
 
 ```python
-bool | Literal['hidden']
+bool | Literal["hidden"]
 ```
 
 </td>
-<td align="left"><code>value = True</code></td>
+<td align="left"><code>True</code></td>
 <td align="left">If False, component will be hidden. If "hidden", component will be visually hidden and not take up space in the layout but still exist in the DOM</td>
 </tr>
 
@@ -191,7 +191,7 @@ str | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">An optional string that is assigned as the id of this component in the HTML DOM. Can be used for targeting CSS styles.</td>
 </tr>
 
@@ -204,7 +204,7 @@ list[str] | str | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">An optional list of strings that are assigned as the classes of this component in the HTML DOM. Can be used for targeting CSS styles.</td>
 </tr>
 
@@ -217,7 +217,7 @@ bool
 ```
 
 </td>
-<td align="left"><code>value = True</code></td>
+<td align="left"><code>True</code></td>
 <td align="left">If False, component will not render be rendered in the Blocks context. Should be used if the intention is to assign event listeners now but render the component later.</td>
 </tr>
 
@@ -230,7 +230,7 @@ int | str | tuple[int | str, ...] | None
 ```
 
 </td>
-<td align="left"><code>value = None</code></td>
+<td align="left"><code>None</code></td>
 <td align="left">in a gr.render, Components with the same key across re-renders are treated as the same component, not a new component. Properties set in 'preserved_by_key' are not reset across a re-render.</td>
 </tr>
 
@@ -243,7 +243,7 @@ list[str] | str | None
 ```
 
 </td>
-<td align="left"><code>value = "value"</code></td>
+<td align="left"><code>"value"</code></td>
 <td align="left">A list of parameters from this component's constructor. Inside a gr.render() function, if a component is re-rendered with the same key, these (and only these) parameters will be preserved in the UI (if they have been changed by the user or an event listener) instead of re-rendered based on the values provided during constructor.</td>
 </tr>
 </tbody></table>
@@ -272,8 +272,8 @@ The code snippet below is accurate in cases where the component is used as both 
 
  ```python
  def predict(
-     value: str| None
- ) -> str| None:
+     value: str | None
+ ) -> str | None:
      return value
  ```
  
