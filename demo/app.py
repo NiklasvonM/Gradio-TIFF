@@ -1,14 +1,10 @@
 import gradio as gr
 from gradio_tiff import Tiff
 
-
-# example = Tiff().example_value()
-
 demo = gr.Interface(
     lambda x: x,
-    inputs=Tiff(),
+    inputs=Tiff(value=Tiff().example_value()),
     outputs=Tiff(),
-    # examples=[[example]],
 )
 
 

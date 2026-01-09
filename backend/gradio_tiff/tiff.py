@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 import os
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Literal
 
 from gradio.components.base import Component
 from gradio.data_classes import FileData
@@ -105,11 +105,11 @@ class Tiff(Component):
 
         return FileData(path=value, url=f"/file={value}", orig_name=filename)
 
-    def example_payload(self) -> Any:
+    def example_payload(self):
         return {
-            "path": "https://raw.githubusercontent.com/<NiklasvonM>/Gradio-TIFF/main/demo/data/sample.tiff",
+            "path": "https://raw.githubusercontent.com/NiklasvonM/Gradio-TIFF/main/demo/data/sample.tiff",
             "orig_name": "sample.tiff",
         }
 
-    def example_value(self) -> str:
-        return "https://raw.githubusercontent.com/<NiklasvonM>/Gradio-TIFF/main/demo/data/sample.tiff"
+    def example_value(self):
+        return "https://raw.githubusercontent.com/NiklasvonM/Gradio-TIFF/main/demo/data/sample.tiff"
