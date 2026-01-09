@@ -39,7 +39,7 @@ classifiers = [
 
 [project.urls]
 repository = "https://github.com/NiklasvonM/Gradio-TIFF/"
-# space = "your space url"
+space = "https://huggingface.co/spaces/NiklasvonM/Gradio-TIFF"
 
 [project.optional-dependencies]
 dev = ["build", "twine"]
