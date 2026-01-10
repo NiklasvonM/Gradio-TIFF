@@ -106,8 +106,10 @@ class Tiff(Component):
         return FileData(path=value, url=f"/file={value}", orig_name=filename)
 
     def example_payload(self):
+        url = "https://raw.githubusercontent.com/NiklasvonM/Gradio-TIFF/main/demo/data/sample.tiff"
         return {
-            "path": "https://raw.githubusercontent.com/NiklasvonM/Gradio-TIFF/main/demo/data/sample.tiff",
+            "path": url,
+            "url": url,
             "orig_name": "sample.tiff",
         }
 
