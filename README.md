@@ -10,7 +10,7 @@ app_file: space.py
 ---
 
 # `gradio_tiff`
-<a href="https://pypi.org/project/gradio_tiff/" target="_blank"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/gradio_tiff"></a> <a href="https://github.com/NiklasvonM/Gradio-TIFF//issues" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Issues-white?logo=github&logoColor=black"></a> <a href="https://huggingface.co/spaces/NiklasvonM/Gradio-TIFF/discussions" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/%F0%9F%A4%97%20Discuss-%23097EFF?style=flat&logoColor=black"></a>
+<a href="https://pypi.org/project/gradio_tiff/" target="_blank"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/gradio_tiff"></a> <a href="https://github.com/NiklasvonM/Gradio-TIFF//issues" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Issues-white?logo=github&logoColor=black"></a> <a href="https://huggingface.co/spaces/NiklasvonM/gradio_tiff/discussions" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/%F0%9F%A4%97%20Discuss-%23097EFF?style=flat&logoColor=black"></a>
 
 Custom Gradio component for multi-page TIFF images
 
