@@ -355,7 +355,7 @@
 		font-family: var(--font-sans);
 	}
 
-	img {
+	.image-wrapper img {
 		max-width: 100%;
 		max-height: 70vh;
 		object-fit: contain;
@@ -391,7 +391,7 @@
 		user-select: none;
 	}
 
-	button.nav-btn {
+	.nav-controls button.nav-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -405,11 +405,11 @@
 		transition: all 0.2s;
 	}
 
-	button.nav-btn:hover:not(:disabled) {
+	.nav-controls button.nav-btn:hover:not(:disabled) {
 		background: var(--background-fill-secondary);
 	}
 
-	button.nav-btn:disabled {
+	.nav-controls button.nav-btn:disabled {
 		opacity: 0.4;
 		cursor: not-allowed;
 	}
