@@ -46,7 +46,7 @@ jobs:
       # Build once, then smoke-test that same artifact against the matrix below.
 
       - name: Install build prerequisites (base Gradio)
-        run: uv pip install --system --group build "gradio>=6.9,<7.0"
+        run: uv pip install --system -e . --group build "gradio>=6.9,<7.0"
 
       - name: Install npm dependencies
         working-directory: frontend
