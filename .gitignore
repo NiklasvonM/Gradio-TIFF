@@ -10,3 +10,16 @@ __tmp/*
 .ruff_cache
 node_modules
 backend/**/templates/
+
+# environments
+.venv*
+.env
+.gradio
+
+# editors / OS
+.idea
+.DS_Store
+
+# tests
+test-results/
+playwright-report/
