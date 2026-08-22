@@ -1,11 +1,9 @@
 import type { FileData } from "@gradio/client";
-import type { LoadingStatus } from "@gradio/statustracker";
 
 export interface TiffEvents {
     change: undefined;
     upload: undefined;
     clear: undefined;
-    clear_status: LoadingStatus;
 }
 
 export interface TiffProps {
@@ -26,7 +24,7 @@ declare global {
     interface Window {
         Tiff: {
             initialize: (opts: { TOTAL_MEMORY: number }) => void;
-            new(opts: { buffer: ArrayBuffer }): TiffInstance;
+            new (opts: { buffer: ArrayBuffer }): TiffInstance;
         };
     }
 }

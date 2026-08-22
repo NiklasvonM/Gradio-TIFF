@@ -1,0 +1,151 @@
+name: gradio-compat
+
+# Builds the wheel once and smoke-tests that single artifact against a range of
+# Gradio versions.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly Monday 04:17 UTC. Picks up new Gradio releases.
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: gradio-compat-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-wheel:
+    name: Build wheel (once)
+    runs-on: ubuntu-latest
+    outputs:
+      wheel-name: ${{ steps.locate.outputs.wheel-name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          # >=20.19 required: @gradio/preview 0.17 pulls in Vite 8.
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      # Build once, then smoke-test that same artifact against the matrix below.
+
+      - name: Install build prerequisites (base Gradio)
+        run: uv pip install --system -e . --group build "gradio>=6.9,<7.0"
+
+      - name: Install npm dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build wheel
+        run: |
+          # Build only the wheel; skip docs regeneration (see scripts/build.sh).
+          gradio cc build --no-generate-docs
+
+      - id: locate
+        name: Locate built wheel
+        run: |
+          wheel="$(ls dist/*.whl | head -n 1)"
+          echo "wheel-name=$(basename "$wheel")" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gradio_tiff-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 7
+
+  smoke:
+    name: Smoke ${{ matrix.gradio }}
+    needs: build-wheel
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 6.9 is the floor: the first release that loads a component-local
+          # svelte_runtime_entry.js.
+          - gradio: "6.9.*"
+            allow-failure: false
+          - gradio: "6.15.*"
+            allow-failure: false
+          - gradio: "6.25.*"
+            allow-failure: false
+          # Early-warning lane: a new Gradio release might land between runs.
+          # Don't block PRs on it.
+          - gradio: "latest"
+            allow-failure: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: gradio_tiff-wheel
+          path: dist/
+
+      - name: Install Gradio ${{ matrix.gradio }} and the wheel
+        run: |
+          if [ "${{ matrix.gradio }}" = "latest" ]; then
+            uv pip install --system "gradio"
+          else
+            uv pip install --system "gradio==${{ matrix.gradio }}"
+          fi
+          # --no-deps is load-bearing. Without it the wheel's `gradio<7.0` pin
+          # lets uv downgrade the Gradio we just pinned, so the `latest` lane
+          # would quietly test 6.x once Gradio 7 ships and still pass green.
+          uv pip install --system --no-deps dist/*.whl
+          uv pip install --system --group test
+
+      - name: Verify the intended Gradio is installed
+        run: |
+          python - <<'PY'
+          import gradio
+          want = "${{ matrix.gradio }}"
+          got = gradio.__version__
+          print(f"gradio {got} (matrix entry: {want})")
+          if want != "latest":
+              assert got.startswith(want.rstrip("*")), f"expected {want}, got {got}"
+          PY
+
+      - name: Install Playwright Chromium
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run smoke test
+        run: pytest tests/test_frontend_smoke.py -v --tb=short
+
+      - name: Upload Playwright trace on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-trace-${{ matrix.gradio }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7

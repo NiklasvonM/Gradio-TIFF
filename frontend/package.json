@@ -1,23 +1,18 @@
 {
   "name": "gradio_tiff",
-  "version": "0.1.2",
-  "description": "Gradio UI packages",
+  "version": "0.2.0",
+  "description": "Frontend for the gradio_tiff custom component",
   "type": "module",
-  "author": "",
-  "license": "ISC",
+  "author": "Niklas von Moers <niklasvmoers@protonmail.com>",
+  "license": "Apache-2.0",
   "private": false,
   "dependencies": {
-    "@gradio/atoms": "0.20.0",
-    "@gradio/client": "2.0.1",
-    "@gradio/icons": "0.15.0",
-    "@gradio/statustracker": "0.12.1",
-    "@gradio/upload": "0.17.3",
-    "@gradio/utils": "0.11.0",
-    "@types/d3-drag": "^3.0.7",
-    "@types/d3-selection": "^3.0.11",
-    "d3-drag": "^3.0.0",
-    "d3-selection": "^3.0.0",
+    "@gradio/client": "2.5.0",
+    "@gradio/utils": "0.14.0",
     "tiff.js": "^1.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": {
@@ -28,16 +23,14 @@
     "./package.json": "./package.json"
   },
   "devDependencies": {
-    "@gradio/preview": "0.15.1",
-    "@types/utif": "^3.0.6"
+    "@gradio/preview": "0.17.0",
+    "svelte": "^5"
   },
-  "main_changeset": true,
   "peerDependencies": {
-    "svelte": "^5.43.4"
+    "svelte": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gradio-app/gradio.git",
-    "directory": "js/imageslider"
+    "url": "git+https://github.com/NiklasvonM/Gradio-TIFF.git"
   }
 }

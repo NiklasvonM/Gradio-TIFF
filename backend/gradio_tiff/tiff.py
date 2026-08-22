@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
 import os
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, Literal
 
 from gradio.components.base import Component
@@ -39,7 +39,7 @@ class Tiff(Component):
         render: bool = True,
         key: int | str | tuple[int | str, ...] | None = None,
         preserved_by_key: list[str] | str | None = "value",
-    ):        
+    ):
         """
         Parameters:
             value: A path or URL to the TIFF image.

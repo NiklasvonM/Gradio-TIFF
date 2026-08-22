@@ -1,3 +1,3 @@
 from .tiff import Tiff
 
-__all__ = ['Tiff']
+__all__ = ["Tiff"]

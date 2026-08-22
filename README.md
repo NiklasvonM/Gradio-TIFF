@@ -1,269 +1,46 @@
+# gradio_tiff
 
-# `gradio_tiff`
-<a href="https://pypi.org/project/gradio_tiff/" target="_blank"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/gradio_tiff"></a> <a href="https://github.com/NiklasvonM/Gradio-TIFF//issues" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Issues-white?logo=github&logoColor=black"></a> <a href="https://huggingface.co/spaces/NiklasvonM/gradio_tiff/discussions" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/%F0%9F%A4%97%20Discuss-%23097EFF?style=flat&logoColor=black"></a>
+[![PyPI - Version](https://img.shields.io/pypi/v/gradio_tiff)](https://pypi.org/project/gradio_tiff/)
 
-Custom Gradio component for multi-page TIFF images
+A custom [Gradio](https://gradio.app) component that displays multi-page TIFF images.
 
-## Installation
+![Demo screenshot](docs/screenshot.png)
+
+## Install
 
 ```bash
 pip install gradio_tiff
 ```
 
-## Usage
+## Quick start
 
 ```python
 import gradio as gr
 from gradio_tiff import Tiff
 
-demo = gr.Interface(
-    lambda x: x,
-    inputs=Tiff(value=Tiff().example_value()),
-    outputs=Tiff(),
-)
 
+def echo(path: str | None) -> str | None:
+    return path
+
+
+demo = gr.Interface(
+    fn=echo,
+    inputs=Tiff(value=Tiff().example_value(), label="Upload TIFF"),
+    outputs=Tiff(label="Echoed TIFF"),
+)
 
 if __name__ == "__main__":
     demo.launch()
-
 ```
 
-## `Tiff`
+The component:
 
-### Initialization
+- accepts `.tif` / `.tiff` uploads (single file),
+- renders each page as a PNG canvas and shows page navigation if the file is multi-page,
+- exposes the local file path to your Python function via `preprocess`,
+- packages a return value (path or URL) as a `FileData` payload via `postprocess`,
+- emits `upload`, `change` and `clear` events.
 
-<table>
-<thead>
-<tr>
-<th align="left">name</th>
-<th align="left" style="width: 25%;">type</th>
-<th align="left">default</th>
-<th align="left">description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>value</code></td>
-<td align="left" style="width: 25%;">
+## API reference
 
-```python
-str | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">A path or URL to the TIFF image.</td>
-</tr>
-
-<tr>
-<td align="left"><code>label</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-str | I18nData | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">the label for this component. Appears above the component and is also used as the header if there are a table of examples for this component. If None and used in a `gr.Interface`, the label will be the name of the parameter this component is assigned to.</td>
-</tr>
-
-<tr>
-<td align="left"><code>every</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-Timer | float | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">Continously calls `value` to recalculate it if `value` is a function (has no effect otherwise). Can provide a Timer whose tick resets `value`, or a float that provides the regular interval for the reset Timer.</td>
-</tr>
-
-<tr>
-<td align="left"><code>inputs</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-Component | Sequence[Component] | set[Component] | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">Components that are used as inputs to calculate `value` if `value` is a function (has no effect otherwise). `value` is recalculated any time the inputs change.</td>
-</tr>
-
-<tr>
-<td align="left"><code>show_label</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">if True, will display label.</td>
-</tr>
-
-<tr>
-<td align="left"><code>show_download_button</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool
-```
-
-</td>
-<td align="left"><code>True</code></td>
-<td align="left">If True, shows a button to download the original TIFF file.</td>
-</tr>
-
-<tr>
-<td align="left"><code>container</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool
-```
-
-</td>
-<td align="left"><code>True</code></td>
-<td align="left">if True, will place the component in a container - providing some extra padding around the border.</td>
-</tr>
-
-<tr>
-<td align="left"><code>scale</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-int | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">relative size compared to adjacent Components. For example if Components A and B are in a Row, and A has scale=2, and B has scale=1, A will be twice as wide as B. Should be an integer. scale applies in Rows, and to top-level Components in Blocks where fill_height=True.</td>
-</tr>
-
-<tr>
-<td align="left"><code>interactive</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">if True, will allow users to upload and edit an image; if False, can only be used to display images. If not provided, this is inferred based on whether the component is used as an input or output.</td>
-</tr>
-
-<tr>
-<td align="left"><code>visible</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool | Literal["hidden"]
-```
-
-</td>
-<td align="left"><code>True</code></td>
-<td align="left">If False, component will be hidden. If "hidden", component will be visually hidden and not take up space in the layout but still exist in the DOM</td>
-</tr>
-
-<tr>
-<td align="left"><code>elem_id</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-str | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">An optional string that is assigned as the id of this component in the HTML DOM. Can be used for targeting CSS styles.</td>
-</tr>
-
-<tr>
-<td align="left"><code>elem_classes</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-list[str] | str | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">An optional list of strings that are assigned as the classes of this component in the HTML DOM. Can be used for targeting CSS styles.</td>
-</tr>
-
-<tr>
-<td align="left"><code>render</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-bool
-```
-
-</td>
-<td align="left"><code>True</code></td>
-<td align="left">If False, component will not render be rendered in the Blocks context. Should be used if the intention is to assign event listeners now but render the component later.</td>
-</tr>
-
-<tr>
-<td align="left"><code>key</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-int | str | tuple[int | str, ...] | None
-```
-
-</td>
-<td align="left"><code>None</code></td>
-<td align="left">in a gr.render, Components with the same key across re-renders are treated as the same component, not a new component. Properties set in 'preserved_by_key' are not reset across a re-render.</td>
-</tr>
-
-<tr>
-<td align="left"><code>preserved_by_key</code></td>
-<td align="left" style="width: 25%;">
-
-```python
-list[str] | str | None
-```
-
-</td>
-<td align="left"><code>"value"</code></td>
-<td align="left">A list of parameters from this component's constructor. Inside a gr.render() function, if a component is re-rendered with the same key, these (and only these) parameters will be preserved in the UI (if they have been changed by the user or an event listener) instead of re-rendered based on the values provided during constructor.</td>
-</tr>
-</tbody></table>
-
-
-### Events
-
-| name | description |
-|:-----|:------------|
-| `clear` | This listener is triggered when the user clears the Tiff using the clear button for the component. |
-| `change` | Triggered when the value of the Tiff changes either because of user input (e.g. a user types in a textbox) OR because of a function update (e.g. an image receives a value from the output of an event trigger). See `.input()` for a listener that is only triggered by user input. |
-| `upload` | This listener is triggered when the user uploads a file into the Tiff. |
-
-
-
-### User function
-
-The impact on the users predict function varies depending on whether the component is used as an input or output for an event (or both).
-
-- When used as an Input, the component only impacts the input signature of the user function.
-- When used as an output, the component only impacts the return signature of the user function.
-
-The code snippet below is accurate in cases where the component is used as both an input and an output.
-
-
-
- ```python
- def predict(
-     value: str | None
- ) -> str | None:
-     return value
- ```
- 
+See [DOCS.md](DOCS.md) for the full auto-generated reference.
