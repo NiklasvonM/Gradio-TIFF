@@ -29,7 +29,8 @@ classifiers = [
 
 [project.urls]
 repository = "https://github.com/NiklasvonM/Gradio-TIFF/"
-space = "https://huggingface.co/spaces/NiklasvonM/gradio_tiff"
+# https://github.com/NiklasvonM/Gradio-TIFF/issues/1
+# space = "https://huggingface.co/spaces/NiklasvonM/gradio_tiff"
 
 [dependency-groups]
 test = ["pytest>=8", "playwright>=1.45", "pytest-playwright>=0.5"]

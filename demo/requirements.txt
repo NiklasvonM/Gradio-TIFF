@@ -1,1 +1,1 @@
-gradio_tiff
+gradio_tiff>=0.2.0
